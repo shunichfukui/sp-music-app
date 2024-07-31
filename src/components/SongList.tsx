@@ -1,7 +1,8 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SongListProps } from '../types';
 
-export function SongList(props: any) {
+export function SongList(props: SongListProps) {
   if (props.isLoading)
     return (
       <div className="inset-0 flex justify-center items-center">
@@ -11,7 +12,7 @@ export function SongList(props: any) {
 
   return (
     <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-      {props.songs.map((song: any, index: number) => {
+      {props.songs.map((song, index) => {
         return (
           <div key={index} className="flex-none cursor-pointer ">
             <img alt="thumbnail" src={song.album.images[0].url} className="mb-2 rounded" />

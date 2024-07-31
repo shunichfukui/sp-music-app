@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import SpotifyClient from './lib/spotify';
 import { SongList } from './components/SongList';
+import { Song } from './types';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
-  const [popularSongs, setPopularSongs] = useState<any[]>([]);
+  const [popularSongs, setPopularSongs] = useState<Song[]>([]);
 
   useEffect(() => {
     fetchPopularSongs();
