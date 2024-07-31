@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SpotifyClient from './lib/spotify';
+import { SongList } from './components/SongList';
 
 export default function App() {
-  const [spotifyClient, setSpotifyClient] = useState<SpotifyClient | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [popularSongs, setPopularSongs] = useState<any[]>([]);
 
   useEffect(() => {
-    const initializeSpotify = async () => {
-      const client = await SpotifyClient.initialize();
-      setSpotifyClient(client);
-      client.test();
-    };
-
-    initializeSpotify();
+    fetchPopularSongs();
   }, []);
+
+  const fetchPopularSongs = async () => {
+    setIsLoading(true);
+    const client = await SpotifyClient.initialize();
+    const result = await client.fetchPopularSongs();
+    const popularSongs = result.items.map((item: any) => {
+      return item.track;
+    });
+    setPopularSongs(popularSongs);
+    setIsLoading(false);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
@@ -22,6 +29,7 @@ export default function App() {
         </header>
         <section>
           <h2 className="text-2xl font-semibold mb-5">あなたにオススメの音楽</h2>
+          <SongList isLoading={isLoading} songs={popularSongs} />
         </section>
       </main>
     </div>
