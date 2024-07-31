@@ -1,4 +1,19 @@
+import React, { useEffect, useState } from 'react';
+import SpotifyClient from './lib/spotify';
+
 export default function App() {
+  const [spotifyClient, setSpotifyClient] = useState<SpotifyClient | null>(null);
+
+  useEffect(() => {
+    const initializeSpotify = async () => {
+      const client = await SpotifyClient.initialize();
+      setSpotifyClient(client);
+      client.test();
+    };
+
+    initializeSpotify();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <main className="flex-1 p-8 mb-20">
