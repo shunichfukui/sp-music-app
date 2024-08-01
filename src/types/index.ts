@@ -22,3 +22,9 @@ export type SongListProps = {
   songs: Song[];
   onSongSelected: (song: Song) => void;
 };
+
+export type PlayerProps = {
+  song: Song;
+  isPlay: boolean;
+  onButtonClick: () => void;
+};

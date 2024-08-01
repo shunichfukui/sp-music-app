@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import SpotifyClient from './lib/spotify';
 import { SongList } from './components/SongList';
 import { Song } from './types';
+import { Player } from './components/Player';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [popularSongs, setPopularSongs] = useState<Song[]>([]);
   const [isPlay, setIsPlay] = useState<boolean>(false);
-  const [selectedSong, setSelectedSong] = useState<Song>();
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -29,11 +30,21 @@ export default function App() {
   const handleSongSelected = async (song: Song) => {
     if (audioRef.current) {
       setSelectedSong(song);
-      console.log(song, 'songの値');
-
-      audioRef.current.src = song.preview_url;
+      audioRef.current.src = song.preview_url || '';
       audioRef.current.play();
       setIsPlay(true);
+    }
+  };
+
+  const toggleSong = () => {
+    if (audioRef.current) {
+      if (isPlay) {
+        audioRef.current.pause();
+        setIsPlay(false);
+      } else {
+        audioRef.current.play();
+        setIsPlay(true);
+      }
     }
   };
 
@@ -52,6 +63,7 @@ export default function App() {
           />
         </section>
       </main>
+      {selectedSong && <Player song={selectedSong} isPlay={isPlay} onButtonClick={toggleSong} />}
       <audio ref={audioRef} />
     </div>
   );
