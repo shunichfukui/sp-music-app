@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export type Artist = {
   name: string;
 };
@@ -27,4 +29,9 @@ export type PlayerProps = {
   song: Song;
   isPlay: boolean;
   onButtonClick: () => void;
+};
+
+export type SearchInputProp = {
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
 };
