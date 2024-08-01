@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SpotifyClient from './lib/spotify';
 import { SongList } from './components/SongList';
 import { Song } from './types';
@@ -6,6 +6,9 @@ import { Song } from './types';
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [popularSongs, setPopularSongs] = useState<Song[]>([]);
+  const [isPlay, setIsPlay] = useState<boolean>(false);
+  const [selectedSong, setSelectedSong] = useState<Song>();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     fetchPopularSongs();
@@ -15,11 +18,23 @@ export default function App() {
     setIsLoading(true);
     const client = await SpotifyClient.initialize();
     const result = await client.fetchPopularSongs();
-    const popularSongs = result.items.map((item: any) => {
-      return item.track;
-    });
+    const popularSongs = result.items
+      .map((item: any) => item.track)
+      .filter((track: any) => track.preview_url);
+
     setPopularSongs(popularSongs);
     setIsLoading(false);
+  };
+
+  const handleSongSelected = async (song: Song) => {
+    if (audioRef.current) {
+      setSelectedSong(song);
+      console.log(song, 'songの値');
+
+      audioRef.current.src = song.preview_url;
+      audioRef.current.play();
+      setIsPlay(true);
+    }
   };
 
   return (
@@ -30,9 +45,14 @@ export default function App() {
         </header>
         <section>
           <h2 className="text-2xl font-semibold mb-5">あなたにオススメの音楽</h2>
-          <SongList isLoading={isLoading} songs={popularSongs} />
+          <SongList
+            isLoading={isLoading}
+            songs={popularSongs}
+            onSongSelected={handleSongSelected}
+          />
         </section>
       </main>
+      <audio ref={audioRef} />
     </div>
   );
 }
