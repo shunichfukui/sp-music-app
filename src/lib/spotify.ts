@@ -27,6 +27,7 @@ class SpotifyClient {
 
   async fetchPopularSongs() {
     const response = await axios.get(
+      // FIXME: 37i9dQZF1DX9vYRBO9gjDeはspotifyの人気ランキングを取得
       'https://api.spotify.com/v1/playlists/37i9dQZF1DX9vYRBO9gjDe/tracks',
       {
         headers: { Authorization: 'Bearer ' + this.token },

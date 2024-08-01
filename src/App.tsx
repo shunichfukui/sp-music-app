@@ -30,7 +30,7 @@ export default function App() {
   const handleSongSelected = async (song: Song) => {
     if (audioRef.current) {
       setSelectedSong(song);
-      audioRef.current.src = song.preview_url || '';
+      audioRef.current.src = song.preview_url;
       audioRef.current.play();
       setIsPlay(true);
     }
