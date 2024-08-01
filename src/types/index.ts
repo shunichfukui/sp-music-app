@@ -31,7 +31,12 @@ export type PlayerProps = {
   onButtonClick: () => void;
 };
 
-export type SearchInputProp = {
+export type SearchInputProps = {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
+};
+
+export type PaginationProps = {
+  onPrev?: () => void;
+  onNext?: () => void;
 };

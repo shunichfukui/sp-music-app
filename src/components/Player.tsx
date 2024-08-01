@@ -7,7 +7,7 @@ export function Player(props: PlayerProps) {
 
   return (
     <footer className="fixed bottom-0 w-full bg-gray-800 p-5">
-      <div className="grid grid-cols-3">
+      <div className="flex justify-between w-full md:max-w-[90%] md:mx-auto">
         <div className="flex items-center">
           {song.album.images.length > 0 && song.album.images[0].url && (
             <img
@@ -21,7 +21,7 @@ export function Player(props: PlayerProps) {
             <p className="text-xs text-gray-400">{song.artists[0].name}</p>
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center ">
           <FontAwesomeIcon
             onClick={onButtonClick}
             icon={isPlay ? faStopCircle : faPlayCircle}
